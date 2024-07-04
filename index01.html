@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <mesa charset="utf-8"></mesa>
+    </head>
+    <body style="background-color:pink">
+        <h3>object.h</h3>
+        <hr>
+        <pre>
+            #ifndef STH
+            #define STH
+            #include"sth"
+            class Object
+            {
+            protected:
+                GLuint ID;
+            public:
+                virtual void bind(){ }
+                virtual void nbind() = 0;
+                GLuint id() { return ID; }
+            };
+            
+            class Vao:public Object
+            {
+            public:
+                Vao();
+                ~Vao();
+                void bind();
+                void nbind();
+            };
+            
+            class Veboabc :public Object
+            {
+            protected:
+                Veboabc();
+                virtual ~Veboabc() = 0;
+                virtual void bind(GLenum);
+                virtual void nbind(GLenum);
+                virtual void adddata(GLenum mode1,size_t size, const GLvoid * data, GLenum mode2);
+            };
+            
+            class Vbo :public Veboabc
+            {
+            public:
+                Vbo();
+                ~Vbo();
+                void bind();
+                void nbind();
+                void adddata(size_t size, const void * data, GLenum mode);
+            };
+            
+            class Ebo :public Veboabc
+            {
+            public:
+                Ebo();
+                ~Ebo();
+                void bind();
+                void nbind();
+                void adddata(size_t size, const void * data, GLenum mode);
+            };
+        </pre>
+        <hr>
+        <hr>
+        <hr>
+        <h3>object.cpp</h3>
+        <hr>
+        <pre>
+#include "F:\myownlibforopengl\include\object.h"
+
+void Vao::bind()
+{
+	glBindVertexArray(ID);
+}
+
+Vao::Vao():Object()
+{
+	glGenVertexArrays(1, &ID);
+}
+
+void Veboabc::bind(GLenum mode)
+{
+	glBindBuffer(mode, ID);
+}
+
+void Veboabc::adddata(GLenum mode1,size_t size, const GLvoid * data, GLenum mode2)
+{
+	glBufferData(mode1, size, data, mode2);
+}
+
+Veboabc::Veboabc():Object()
+{
+	glGenBuffers(1, &ID);
+}
+
+void Vao::nbind()
+{
+	glBindVertexArray(0);
+}
+
+void Veboabc::nbind(GLenum mode)
+{
+	glBindBuffer(mode, 0);
+}
+
+Vao::~Vao()
+{
+	glDeleteVertexArrays(1, &ID);
+}
+
+Veboabc::~Veboabc()
+{
+	glDeleteBuffers(1, &ID);
+}
+
+Vbo::Vbo():Veboabc(){ }
+
+Vbo::~Vbo()
+{
+	Veboabc::~Veboabc();
+}
+
+void Vbo::bind()
+{
+	Veboabc::bind(GL_ARRAY_BUFFER);
+}
+
+void Vbo::nbind()
+{
+	Veboabc::nbind(GL_ARRAY_BUFFER);
+}
+
+void Vbo::adddata(size_t size, const void * data, GLenum mode)
+{
+	Veboabc::adddata(GL_ARRAY_BUFFER, size, data, mode);
+}
+
+Ebo::Ebo() :Veboabc() { }
+
+Ebo::~Ebo()
+{
+	Veboabc::~Veboabc();
+}
+
+void Ebo::bind()
+{
+	Veboabc::bind(GL_ELEMENT_ARRAY_BUFFER);
+}
+
+void Ebo::nbind()
+{
+	Veboabc::nbind(GL_ELEMENT_ARRAY_BUFFER);
+}
+
+void Ebo::adddata(size_t size,const void * data, GLenum mode)
+{
+	Veboabc::adddata(GL_ELEMENT_ARRAY_BUFFER, size, data, mode);
+}
+</pre>
+    </body>
+</html>
