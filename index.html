@@ -10,19 +10,31 @@
         {
           text-align:center;
           color:hotpink;
-          width:250px;
-          height:500px;
+          width:30%;
           background-color:palegreen;
         }
+        .box
+        {
+          display:flex;
+          flex-direction:column;
+        }
+        .box1
+        {
+          display:flex;
+        }
       </style>
-      <div style="height:150px;background-color:plum">
+      <div style="height:150px;background-color:plum" class="box">
       <h1 style="text-align:center">LLY's personal website</h1>
+      <p id="a">Create by LLY</p>
       </div>
-      <h3 style="color:aliceblue;text-align:center">Hello world</h2>
+      <h3 style="color:aliceblue;text-align:center">Hello world     </h2>
       <h5 style="color:rgb(203, 34, 225);text-align:center">hello world</h3>
       <hr>
-      <div id="a">
-      <a href="https://hgfugotry.github.io/literate-/index01.html"><b>包装了OpenGL的vao&vbo&ebo</b></a>
+      <div id="a" class="box">
+      <a href="https://hgfugotry.github.io/literate-/index01.html"><b>code</b></a>
+      <button style="align-self:flex-end;color:aqua;background-color:rgb(75, 46, 60)" onclick="this.innerHTML=Date()">
+        TIMENOW
+    </button>
       </div>
     </body>
 </html>
